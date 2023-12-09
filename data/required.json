@@ -1,0 +1,72 @@
+[
+    {
+        "key": "Helm",
+        "unique": true,
+        "name": "Godslayer Crown"
+    },
+    {
+        "key": "Chest",
+        "min_match_count": 3,
+        "attribut1": "Total Armor",
+        "attribut2": "Damage Reduction from Distant Enemies",
+        "attribut3": "Damage Reduction from Close Enemies",
+        "attribut4": "Damage Reduction from Burning Enemies"
+    },
+    {
+        "key": "Gloves",
+        "unique": true,
+        "name": "Fists of Fate"
+    },
+    {
+        "key": "Pants",
+        "min_match_count": 3,
+        "attribut1": "Ranks of Ball Lightning",
+        "attribut2": "Damage Reduction from Close Enemies",
+        "attribut3": "Total Armor",
+        "attribut4": "Damage Reduction from Burning Enemies"
+    },
+    {
+        "key": "Boots",
+        "min_match_count": 3,
+        "unique": true,
+        "name": "Esu's Heirloom"
+    },
+    {
+        "key": "Weapon",
+        "type": "Dagger",
+        "attribut1": 15,
+        "attribut2": 35,
+        "attribut3": 45,
+        "attribut4": 45
+    },
+    {
+        "key": "Amulet",
+        "min_match_count": 3,
+        "attribut1": "Cooldown Reduction",
+        "attribut2": "Mana Cost Reduction",
+        "attribut3": "Total Armor",
+        "attribut4": "Ranks of All Mastery Skills"
+    },
+    {
+        "key": "Ring",
+        "min_match_count": 3,
+        "unique": true,
+        "name": "Tal Rasha's Iridescent Loop"
+    },
+    {
+        "key": "Ring",
+        "min_match_count": 3,
+        "attribut1": "Critical Strike Chance",
+        "attribut2": "Damage to Close Enemies",
+        "attribut3": "Maximum Life",
+        "attribut4": "Resource Generation"
+    },
+    {
+        "key": "Offhand",
+        "type:": "Focus",
+        "attribut1": 25,
+        "attribut2": 35,
+        "attribut3": 45,
+        "attribut4": 45
+    }
+]

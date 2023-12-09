@@ -1,0 +1,64 @@
+{
+    "Barbarian": {
+        "mainHand": [
+            "Axe",
+            "2-Hand Axe",
+            "Sword",
+            "2-Hand Sword",
+            "Mace",
+            "2-Hand Mace",
+            "Polearm"
+        ],
+        "offHand": [
+            "Axe",
+            "Sword",
+            "Mace"
+        ]
+    },
+    "Druid": {
+        "mainHand": [
+            "Axe",
+            "2-Hand Axe",
+            "Mace",
+            "2-Hand Mace",
+            "Staff",
+            "2-Hand Staff"
+        ],
+        "offHand": []
+    },
+    "Necromancer": {
+        "mainHand": [
+            "Sword",
+            "2-Hand Sword",
+            "Scythe",
+            "2-Hand Scythe",
+            "Staff",
+            "2-Hand Staff"
+        ],
+        "offHand": [
+            "Wand",
+            "Shield",
+            "Focus"
+        ]
+    },
+    "Rogue": {
+        "mainHand": [
+            "Sword",
+            "Dagger",
+            "Bow",
+            "Crossbow"
+        ],
+        "offHand": []
+    },
+    "Sorcerer": {
+        "mainHand": [
+            "Dagger",
+            "Staff",
+            "2-Hand Staff"
+        ],
+        "offHand": [
+            "Wand",
+            "Focus"
+        ]
+    }
+}
