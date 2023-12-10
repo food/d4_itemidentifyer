@@ -41,3 +41,5 @@ Offhand: Wand, Focus
 2-Hand Sword
 
 ## Aspects on legendaries
+
+# O and OO in name is not nice to parse cause d4 font

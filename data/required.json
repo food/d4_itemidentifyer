@@ -1,62 +1,71 @@
-# class name required
 {
-    "Helm": {
-        "unique": true,
-        "name": "Godslayer Crown"
+    "class": "sorcerer",
+    "bis": {
+        "helm": {
+            "unique": true,
+            "name": "Godslayer Crown"
+        },
+        "chest": {
+            "min_match_count": 3,
+            "attribut1": "Total Armor",
+            "attribut2": "Damage Reduction from Distant Enemies",
+            "attribut3": "Damage Reduction from Close Enemies",
+            "attribut4": "Damage Reduction from Burning Enemies"
+        },
+        "gloves": {
+            "unique": true,
+            "name": "Fists of Fate"
+        },
+        "pants2": {
+            "min_match_count": 3,
+            "attribut1": "Ranks of Ball Lightning",
+            "attribut2": "Damage Reduction from Close Enemies",
+            "attribut3": "Total Armor",
+            "attribut4": "Damage Reduction from Burning Enemies"
+        },
+        "pants": {
+            "min_match_count": 3,
+            "attribut1": "All Stats",
+            "attribut2": "Shadow Resistance",
+            "attribut3": "Thorns",
+            "attribut4": "Ranks of Ball Lightning"
+        },
+        "boots": {
+            "unique": true,
+            "name": "Esu's Heirloom"
+        },
+        "amulet": {
+            "min_match_count": 3,
+            "attribut1": "Cooldown Reduction",
+            "attribut2": "Mana Cost Reduction",
+            "attribut3": "Total Armor",
+            "attribut4": "Ranks of All Mastery Skills"
+        },
+        "ring": {
+            "unique": true,
+            "name": "Tal Rasha's Iridescent Loop"
+        },
+        "ring2": {
+            "min_match_count": 3,
+            "attribut1": "Critical Strike Chance",
+            "attribut2": "Damage to Close Enemies",
+            "attribut3": "Maximum Life",
+            "attribut4": "Resource Generation"
+        },
+        "weapon": {
+            "min_match_count": 3,
+            "attribut1": "Intelligence",
+            "attribut2": "All Stats",
+            "attribut3": "Mastery Skill Damage",
+            "attribut4": "Damage to Close Enemies"
+        },
+        "offHand": {
+            "min_match_count": 3,
+            "attribut1": "Critical Strike Chance",
+            "attribut2": "Resource Generation",
+            "attribut3": "Cooldown Reduction",
+            "attribut4": "Mana Cost Reduction"
+        }
     },
-    "Chest": {
-        "min_match_count": 3,
-        "attribut1": "Total Armor",
-        "attribut2": "Damage Reduction from Distant Enemies",
-        "attribut3": "Damage Reduction from Close Enemies",
-        "attribut4": "Damage Reduction from Burning Enemies"
-    },
-    "Gloves": {
-        "unique": true,
-        "name": "Fists of Fate"
-    },
-    "Pants": {
-        "min_match_count": 3,
-        "attribut1": "Ranks of Ball Lightning",
-        "attribut2": "Damage Reduction from Close Enemies",
-        "attribut3": "Total Armor",
-        "attribut4": "Damage Reduction from Burning Enemies"
-    },
-    "Boots": {
-        "unique": true,
-        "name": "Esu's Heirloom"
-    },
-    "Amulet": {
-        "min_match_count": 3,
-        "attribut1": "Cooldown Reduction",
-        "attribut2": "Mana Cost Reduction",
-        "attribut3": "Total Armor",
-        "attribut4": "Ranks of All Mastery Skills"
-    },
-    "Ring": {
-        "unique": true,
-        "name": "Tal Rasha's Iridescent Loop"
-    },
-    "Ring2": {
-        "min_match_count": 3,
-        "attribut1": "Critical Strike Chance",
-        "attribut2": "Damage to Close Enemies",
-        "attribut3": "Maximum Life",
-        "attribut4": "Resource Generation"
-    },
-    "Weapon": {
-        "_type": "Dagger",
-        "attribut1": "Intelligence",
-        "attribut2": "All Stats",
-        "attribut3": "Mastery Skill Damage",
-        "attribut4": "Damage to Close Enemies"
-    },
-    "OffHand": {
-        "_type": "Dagger",
-        "type_:": "Focus",
-        "attribut1": "Critical Strike Chance",
-        "attribut2": "Resource Generation",
-        "attribut3": "Cooldown Reduction",
-        "attribut4": "Mana Cost Reduction"
-    }
+    "aspects": []
 }

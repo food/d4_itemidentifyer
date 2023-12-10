@@ -1,11 +1,8 @@
 import pyautogui
 import keyboard
-import time
 import pytesseract
 import pygame
-import time
 from PIL import Image
-import random
 import json
 
 def take_screenshot():
@@ -77,7 +74,8 @@ def extract_text_from_image(screenshot):
     #timestamp = time.strftime("%Y%m%d%H%M%S")
     #filename = f"screenshot_{timestamp}_{random.randint(1, 10)}.jpg"
     filename = "tmp.jpg"
-    image_data.save(filename, "JPEG", quality=50)
+    #image_data.save(filename, "JPEG", quality=50)
+    image_data.save(filename, "JPEG", quality=95)
 
     try:
         # Use Tesseract OCR to extract text from the saved image
@@ -113,11 +111,28 @@ def find_string_in_text(text, search_string):
 
 
 def check_attributes(text):
-    # required_item_list = load_required_item_list()
+    """
+    Check if the given OCR text corresponds to required attributes for specific item classes.
+
+    Args:
+        text (str): The OCR text to be checked.
+
+    Returns:
+        None
+
+    Prints:
+        - The recognized item class if found.
+        - The OCR text and a message if the item type is not found in the required list.
+        - Success or fail messages based on attribute checks.
+
+    Example:
+        >>> check_attributes("Some OCR text")
+    """
+
     found = False
     item_in_inventar = None
 
-    usable_item_list = get_usable_items_for_class() # TODO:
+    usable_item_list = get_usable_items_for_class()
 
     for item_class in usable_item_list:
         if find_string_in_text(text, item_class):
@@ -132,17 +147,66 @@ def check_attributes(text):
         print("Item type not found in require list")
         return
     
-# if item class == ring
+    print(f"item_in_inventar: {item_in_inventar}")
 
-    if requiredItems[item_in_inventar].get("unique") and find_string_in_text(text, requiredItems[item_in_inventar]["name"]):
-        play_sound("success")
-    elif requiredItems[item_in_inventar].get("unique") == False and(find_string_in_text_bin_response(text, requiredItems[item_in_inventar]["attribut1"]) +
-    find_string_in_text_bin_response(text, requiredItems[item_in_inventar]["attribut2"]) + 
-    find_string_in_text_bin_response(text, requiredItems[item_in_inventar]["attribut3"]) +
-    find_string_in_text_bin_response(text, requiredItems[item_in_inventar]["attribut4"]) >= requiredItems[item_in_inventar]["min_match_count"]):
-        play_sound("success")
+    if item_in_inventar == "Ring":
+        recired_item_attr = requiredItems["bis"]["ring"]
+        recired_item_attr2 = requiredItems["bis"]["ring2"]
+        print(f"recired_item_attr: {recired_item_attr}")
+        print(f"recired_item_attr2: {recired_item_attr2}")
+        if unique_check(recired_item_attr, text) or none_unique_check(recired_item_attr, text) or unique_check(recired_item_attr2, text) or none_unique_check(recired_item_attr2, text):
+            play_sound("success")
+        else:
+            play_sound("fail")
     else:
-        play_sound("fail")
+        item_in_inventar = "weapon" if check_item_is_weapon_or_offhand(item_in_inventar, "weapon") else item_in_inventar
+        item_in_inventar = "offhand" if check_item_is_weapon_or_offhand(item_in_inventar, "offhand") else item_in_inventar
+        recired_item_attr = requiredItems["bis"][item_in_inventar.lower()]
+        print(f"recired_item_attr: {recired_item_attr}")
+
+        if unique_check(recired_item_attr, text) or none_unique_check(recired_item_attr, text):
+            play_sound("success")
+        else:
+            play_sound("fail")
+
+
+def unique_check(recired_item_attr, text):
+    """
+    Check if the given OCR text contains the unique name specified in the required item attributes.
+
+    Args:
+        recired_item_attr (dict): The required item attributes containing a "unique" key and a "name" key.
+        text (str): The OCR text to be checked.
+
+    Returns:
+        bool: True if the OCR text contains the unique name, False otherwise.
+
+    Example:
+        >>> unique_check({"unique": True, "name": "Unique Item"}, "OCR text containing Unique Item")
+    """
+
+    return recired_item_attr.get("unique") and find_string_in_text(text, recired_item_attr["name"]) # TDO O and OO fix!
+
+
+def none_unique_check(recired_item_attr, text):
+    """
+    Check if the given OCR text meets the criteria for a non-unique item based on the required item attributes.
+
+    Args:
+        recired_item_attr (dict): The required item attributes containing "unique," "attribut1," "attribut2," "attribut3," "attribut4," and "min_match_count" keys.
+        text (str): The OCR text to be checked.
+
+    Returns:
+        bool: True if the OCR text meets the criteria for a non-unique item, False otherwise.
+
+    Example:
+        >>> none_unique_check({"unique": False, "attribut1": "Attribute1", "attribut2": "Attribute2", "min_match_count": 2}, "OCR text containing Attribute1 and Attribute2")
+    """
+
+    return recired_item_attr.get("unique") == None and(find_string_in_text_bin_response(text, recired_item_attr["attribut1"]) +
+        find_string_in_text_bin_response(text, recired_item_attr["attribut2"]) + 
+        find_string_in_text_bin_response(text, recired_item_attr["attribut3"]) +
+        find_string_in_text_bin_response(text, recired_item_attr["attribut4"]) >= recired_item_attr["min_match_count"])
 
 
 def load_required_item_list():
@@ -159,7 +223,6 @@ def load_required_item_list():
             {"key": "Chest", "min_match_count": 3, "attribut1": "Total Armor", "attribut2": "Damage Reduction from Distant Enemies", 
              "attribut3": "Damage Reduction from Close Enemies", "attribut4": "Damage Reduction from Burning Enemies"},
         ]
-
     """
 
     global requiredItems
@@ -225,6 +288,7 @@ def load_game_scope_data():
     with open("data/game_scope_data.json", "r") as file:
         game_scope_data = json.load(file)
 
+
 def get_last_values(data):
     result = []
     for key, value in data.items():
@@ -234,9 +298,21 @@ def get_last_values(data):
             result.extend(value)
     return result
 
+
 def get_usable_items_for_class():
+    """
+    Get a list of usable items for the current character class based on the last values in the game scope data.
+
+    Returns:
+        list: A list of usable items for the current character class.
+
+    Example:
+        >>> get_usable_items_for_class()
+        ['Helm', 'Chest', 'Gloves', 'Pants', 'Boots', 'Amulet', 'Ring']
+    """
+
     generally_values = get_last_values(game_scope_data["slots"]["generally"])
-    classs_values = get_last_values(game_scope_data["slots"]["druid"])
+    classs_values = get_last_values(game_scope_data["slots"][requiredItems["class"]])
 
     # Convert arrays to sets and perform union
     merged_set = set(generally_values).union(classs_values)
@@ -244,19 +320,40 @@ def get_usable_items_for_class():
     # Convert the result back to a list adn return
     return list(merged_set)
 
+
+def check_item_is_weapon_or_offhand(item, type):
+    """
+    Check if the given item is either a weapon or an offhand based on the specified type and character class.
+
+    Args:
+        item (str): The item to be checked.
+        type (str): The type of item to check ("weapon" or "offhand").
+
+    Returns:
+        bool: True if the item is of the specified type for the current character class, False otherwise.
+
+    Example:
+        >>> check_item_is_weapon_or_offhand("Axe", "weapon")
+        True
+    """
+
+    values = []
+    if(requiredItems["class"] == "barbarian" and type != "offhand"):
+        values = get_last_values(game_scope_data["slots"]["barbarian"])
+    else:
+        values = game_scope_data["slots"][requiredItems["class"]][type]
+
+    return item in values
+
+
 game_scope_data = None
 requiredItems = None
 
 def main():
     print("Press '-', to check an hovered item. Press 'Q', to exit.")
     itembox_identifyer_string = "Item Power"
-    load_game_scope_data();
-    #load_required_item_list()
-
-    usable_item_list = get_usable_items_for_class() # TODO:
-    print(usable_item_list)
-    for item_class in usable_item_list:
-        print(item_class)
+    load_game_scope_data()
+    load_required_item_list()
 
     while True:
         if keyboard.is_pressed("-"):

@@ -1,44 +1,49 @@
 {
     "slots": {
         "generally": {
-            "Helm": [
+            "helm": [
                 "Helm"
             ],
-            "Chest": [
+            "chest": [
                 "Chest"
             ],
-            "Gloves": [
+            "gloves": [
                 "Gloves"
             ],
-            "Pants": [
+            "pants": [
                 "Pants"
             ],
-            "Boots": [
+            "boots": [
                 "Boots"
             ],
-            "Amulet": [
+            "amulet": [
                 "Amulet"
             ],
-            "Ring": [
+            "ring": [
                 "Ring"
             ]
         },
         "barbarian": {
-            "Bludgeoning Weapon": [
-                "Weapon"
+            "bludgeoning_weapon": [
+                "2-Hand Mace"
             ],
-            "Dual-Wield Weapon 1": [
-                "Weapon"
+            "dual_wield_weapon_1": [
+                "Mace",
+                "Axe",
+                "Sword"
             ],
-            "Dual-Wield Weapon 2": [
-                "Weapon"
+            "dual_wield_weapon_2": [
+                "Mace",
+                "Axe",
+                "Sword"
             ],
-            "Slashing Weapon": [
-                "Weapon"
+            "slashing_weapon": [
+                "2-Hand Sword",
+                "2-Hand Axe"
             ]
         },
         "druid": {
-            "Weapon": [
+            "weapon": [
                 "Axe",
                 "2-Hand Axe",
                 "Mace",
@@ -46,12 +51,12 @@
                 "Staff",
                 "2-Hand Staff"
             ],
-            "Offhand": [
+            "offhand": [
                 "Totem"
             ]
         },
         "necromancer": {
-            "Weapon": [
+            "weapon": [
                 "Sword",
                 "2-Hand Sword",
                 "Scythe",
@@ -59,31 +64,31 @@
                 "Staff",
                 "2-Hand Staff"
             ],
-            "Offhand": [
+            "offhand": [
                 "Wand",
                 "Shield",
                 "Focus"
             ]
         },
         "rogue": {
-            "Weapon": [
+            "weapon": [
                 "Sword",
                 "Dagger",
                 "Bow",
                 "Crossbow"
             ],
-            "Offhand": [
+            "offhand": [
                 "Sword",
                 "Dagger"
             ]
         },
         "sorcerer": {
-            "Weapon": [
+            "weapon": [
                 "Dagger",
                 "Staff",
                 "2-Hand Staff"
             ],
-            "Offhand": [
+            "offhand": [
                 "Wand",
                 "Focus"
             ]
