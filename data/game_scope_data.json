@@ -1,0 +1,92 @@
+{
+    "slots": {
+        "generally": {
+            "Helm": [
+                "Helm"
+            ],
+            "Chest": [
+                "Chest"
+            ],
+            "Gloves": [
+                "Gloves"
+            ],
+            "Pants": [
+                "Pants"
+            ],
+            "Boots": [
+                "Boots"
+            ],
+            "Amulet": [
+                "Amulet"
+            ],
+            "Ring": [
+                "Ring"
+            ]
+        },
+        "barbarian": {
+            "Bludgeoning Weapon": [
+                "Weapon"
+            ],
+            "Dual-Wield Weapon 1": [
+                "Weapon"
+            ],
+            "Dual-Wield Weapon 2": [
+                "Weapon"
+            ],
+            "Slashing Weapon": [
+                "Weapon"
+            ]
+        },
+        "druid": {
+            "Weapon": [
+                "Axe",
+                "2-Hand Axe",
+                "Mace",
+                "2-Hand Mace",
+                "Staff",
+                "2-Hand Staff"
+            ],
+            "Offhand": [
+                "Totem"
+            ]
+        },
+        "necromancer": {
+            "Weapon": [
+                "Sword",
+                "2-Hand Sword",
+                "Scythe",
+                "2-Hand Scythe",
+                "Staff",
+                "2-Hand Staff"
+            ],
+            "Offhand": [
+                "Wand",
+                "Shield",
+                "Focus"
+            ]
+        },
+        "rogue": {
+            "Weapon": [
+                "Sword",
+                "Dagger",
+                "Bow",
+                "Crossbow"
+            ],
+            "Offhand": [
+                "Sword",
+                "Dagger"
+            ]
+        },
+        "sorcerer": {
+            "Weapon": [
+                "Dagger",
+                "Staff",
+                "2-Hand Staff"
+            ],
+            "Offhand": [
+                "Wand",
+                "Focus"
+            ]
+        }
+    }
+}

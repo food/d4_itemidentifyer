@@ -12,8 +12,8 @@ data.diablo4.game.metaBuild.build.gear.slot.id = ring-1
 
 ## Item Power needs to be bigger then used item
 
-## Wapon needs to be checkt wthe whole list for one hand or two hand and attributes // get from internal list
-## offhand needs to be checkt wthe whole list for one hand or two hand and attributes // get from internal list
+## Wapon needs to be checkt the whole list for one hand or two hand and attributes // get from internal list
+## offhand needs to be checkt the whole list for attributes // get from internal list
 https://diablo4.wiki.fextralife.com/Weapons
 
 

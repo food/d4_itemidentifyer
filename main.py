@@ -117,11 +117,13 @@ def check_attributes(text):
     found = False
     item_in_inventar = None
 
-    for item in requiredItems:
-        if find_string_in_text(text, item["key"]):
-            print(f"Item is: {item['key']}")
+    usable_item_list = get_usable_items_for_class() # TODO:
+
+    for item_class in usable_item_list:
+        if find_string_in_text(text, item_class):
+            print(f"Item is: {item_class}")
             found = True
-            item_in_inventar = item
+            item_in_inventar = item_class
             break  # Break the loop once an item is found
 
     #  If item is unknown print ocr text
@@ -130,12 +132,14 @@ def check_attributes(text):
         print("Item type not found in require list")
         return
     
-    if item_in_inventar.get("unique") and find_string_in_text(text, item_in_inventar["name"]):
+# if item class == ring
+
+    if requiredItems[item_in_inventar].get("unique") and find_string_in_text(text, requiredItems[item_in_inventar]["name"]):
         play_sound("success")
-    elif item_in_inventar.get("unique") == False and(find_string_in_text_bin_response(text, item_in_inventar["attribut1"]) +
-    find_string_in_text_bin_response(text, item_in_inventar["attribut2"]) + 
-    find_string_in_text_bin_response(text, item_in_inventar["attribut3"]) +
-    find_string_in_text_bin_response(text, item_in_inventar["attribut4"]) >= item_in_inventar["min_match_count"]):
+    elif requiredItems[item_in_inventar].get("unique") == False and(find_string_in_text_bin_response(text, requiredItems[item_in_inventar]["attribut1"]) +
+    find_string_in_text_bin_response(text, requiredItems[item_in_inventar]["attribut2"]) + 
+    find_string_in_text_bin_response(text, requiredItems[item_in_inventar]["attribut3"]) +
+    find_string_in_text_bin_response(text, requiredItems[item_in_inventar]["attribut4"]) >= requiredItems[item_in_inventar]["min_match_count"]):
         play_sound("success")
     else:
         play_sound("fail")
@@ -216,33 +220,43 @@ def find_string_in_text_bin_response(text, search_string):
     return 1 if find_string_in_text(text, search_string) else 0
 
 
-def load_classes():
-    """
-    Load class data from a JSON file and store it in a global variable.
+def load_game_scope_data():
+    global game_scope_data
+    with open("data/game_scope_data.json", "r") as file:
+        game_scope_data = json.load(file)
 
-    Reads the content of the "classes.json" file, parses it as JSON, and assigns
-    the result to a global variable "classes".
+def get_last_values(data):
+    result = []
+    for key, value in data.items():
+        if isinstance(value, dict):
+            result.extend(get_last_values(value))
+        elif isinstance(value, list):
+            result.extend(value)
+    return result
 
-    Global Variable:
-        classes (dict): A dictionary containing the loaded class data.
+def get_usable_items_for_class():
+    generally_values = get_last_values(game_scope_data["slots"]["generally"])
+    classs_values = get_last_values(game_scope_data["slots"]["druid"])
 
-    Example:
-        >>> load_classes()
-        >>> print(classes)
-        {"class1": {"attribute1": "value1", "attribute2": "value2"}, ...}
-    """
-    global classes
-    with open("data/classes.json", "r") as file:
-        classes = json.load(file)
+    # Convert arrays to sets and perform union
+    merged_set = set(generally_values).union(classs_values)
 
-classes = None
+    # Convert the result back to a list adn return
+    return list(merged_set)
+
+game_scope_data = None
 requiredItems = None
 
 def main():
     print("Press '-', to check an hovered item. Press 'Q', to exit.")
     itembox_identifyer_string = "Item Power"
-    load_classes();
-    load_required_item_list()
+    load_game_scope_data();
+    #load_required_item_list()
+
+    usable_item_list = get_usable_items_for_class() # TODO:
+    print(usable_item_list)
+    for item_class in usable_item_list:
+        print(item_class)
 
     while True:
         if keyboard.is_pressed("-"):
