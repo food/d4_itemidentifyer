@@ -25,7 +25,7 @@
         },
         "barbarian": {
             "bludgeoning_weapon": [
-                "2-Hand Mace"
+                "Two-Handed Mace"
             ],
             "dual_wield_weapon_1": [
                 "Mace",
@@ -38,18 +38,18 @@
                 "Sword"
             ],
             "slashing_weapon": [
-                "2-Hand Sword",
-                "2-Hand Axe"
+                "Two-Handed Sword",
+                "Two-Handed Axe"
             ]
         },
         "druid": {
             "weapon": [
                 "Axe",
-                "2-Hand Axe",
+                "Two-Handed Axe",
                 "Mace",
-                "2-Hand Mace",
+                "Two-Handed Mace",
                 "Staff",
-                "2-Hand Staff"
+                "Two-Handed Staff"
             ],
             "offhand": [
                 "Totem"
@@ -58,11 +58,11 @@
         "necromancer": {
             "weapon": [
                 "Sword",
-                "2-Hand Sword",
+                "Two-Handed Sword",
                 "Scythe",
-                "2-Hand Scythe",
+                "Two-Handed Scythe",
                 "Staff",
-                "2-Hand Staff"
+                "Two-Handed Staff"
             ],
             "offhand": [
                 "Wand",
@@ -86,7 +86,7 @@
             "weapon": [
                 "Dagger",
                 "Staff",
-                "2-Hand Staff"
+                "Two-Handed Staff"
             ],
             "offhand": [
                 "Wand",

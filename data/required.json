@@ -1,5 +1,5 @@
 {
-    "class": "sorcerer",
+    "class": "barbarian",
     "bis": {
         "helm": {
             "unique": true,
@@ -52,19 +52,33 @@
             "attribut3": "Maximum Life",
             "attribut4": "Resource Generation"
         },
-        "weapon": {
+        "bludgeoning_weapon": {
             "min_match_count": 3,
             "attribut1": "Intelligence",
             "attribut2": "All Stats",
             "attribut3": "Mastery Skill Damage",
             "attribut4": "Damage to Close Enemies"
         },
-        "offHand": {
+        "dual_wield_weapon_1": {
             "min_match_count": 3,
-            "attribut1": "Critical Strike Chance",
-            "attribut2": "Resource Generation",
-            "attribut3": "Cooldown Reduction",
-            "attribut4": "Mana Cost Reduction"
+            "attribut1": "Intelligence",
+            "attribut2": "All Stats",
+            "attribut3": "Mastery Skill Damage",
+            "attribut4": "Damage to Close Enemies"
+        },
+        "dual_wield_weapon_2": {
+            "min_match_count": 3,
+            "attribut1": "Intelligence",
+            "attribut2": "All Stats",
+            "attribut3": "Mastery Skill Damage",
+            "attribut4": "Damage to Close Enemies"
+        },
+        "slashing_weapon": {
+            "min_match_count": 3,
+            "attribut1": "Intelligence",
+            "attribut2": "All Stats",
+            "attribut3": "Mastery Skill Damage",
+            "attribut4": "Damage to Close Enemies"
         }
     },
     "aspects": []

@@ -1,0 +1,85 @@
+{
+    "class": "barbarian",
+    "bis": {
+        "helm": {
+            "unique": true,
+            "name": "Godslayer Crown"
+        },
+        "chest": {
+            "min_match_count": 3,
+            "attribut1": "Total Armor",
+            "attribut2": "Damage Reduction from Distant Enemies",
+            "attribut3": "Damage Reduction from Close Enemies",
+            "attribut4": "Damage Reduction from Burning Enemies"
+        },
+        "gloves": {
+            "unique": true,
+            "name": "Fists of Fate"
+        },
+        "pants2": {
+            "min_match_count": 3,
+            "attribut1": "Ranks of Ball Lightning",
+            "attribut2": "Damage Reduction from Close Enemies",
+            "attribut3": "Total Armor",
+            "attribut4": "Damage Reduction from Burning Enemies"
+        },
+        "pants": {
+            "min_match_count": 3,
+            "attribut1": "All Stats",
+            "attribut2": "Shadow Resistance",
+            "attribut3": "Thorns",
+            "attribut4": "Ranks of Ball Lightning"
+        },
+        "boots": {
+            "unique": true,
+            "name": "Esu's Heirloom"
+        },
+        "amulet": {
+            "min_match_count": 3,
+            "attribut1": "Cooldown Reduction",
+            "attribut2": "Mana Cost Reduction",
+            "attribut3": "Total Armor",
+            "attribut4": "Ranks of All Mastery Skills"
+        },
+        "ring": {
+            "unique": true,
+            "name": "Tal Rasha's Iridescent Loop"
+        },
+        "ring2": {
+            "min_match_count": 3,
+            "attribut1": "Critical Strike Chance",
+            "attribut2": "Damage to Close Enemies",
+            "attribut3": "Maximum Life",
+            "attribut4": "Resource Generation"
+        },
+        "bludgeoning_weapon": {
+            "min_match_count": 3,
+            "attribut1": "Intelligence",
+            "attribut2": "All Stats",
+            "attribut3": "Mastery Skill Damage",
+            "attribut4": "Damage to Close Enemies"
+        },
+        "dual_wield_weapon_1": {
+            "min_match_count": 3,
+            "attribut1": "Intelligence",
+            "attribut2": "All Stats",
+            "attribut3": "Mastery Skill Damage",
+            "attribut4": "Damage to Close Enemies"
+        },
+        "dual_wield_weapon_2": {
+            "min_match_count": 3,
+            "attribut1": "Intelligence",
+            "attribut2": "All Stats",
+            "attribut3": "Mastery Skill Damage",
+            "attribut4": "Damage to Close Enemies"
+        },
+        "slashing_weapon": {
+            "min_match_count": 3,
+            "attribut1": "Intelligence",
+            "attribut2": "All Stats",
+            "attribut3": "Mastery Skill Damage",
+            "attribut4": "Damage to Close Enemies"
+        }
+    },
+    "aspects": []
+}

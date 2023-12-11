@@ -4,6 +4,12 @@ import pytesseract
 import pygame
 from PIL import Image
 import json
+import sys
+from PyQt5.QtWidgets import QApplication, QWidget
+from PyQt5.QtCore import Qt, QTimer, QThread, QCoreApplication
+from PyQt5 import QtGui
+import time
+import asyncio
 
 def take_screenshot():
     """Take screenshot of the whole screen"""
@@ -159,9 +165,15 @@ def check_attributes(text):
         else:
             play_sound("fail")
     else:
-        item_in_inventar = "weapon" if check_item_is_weapon_or_offhand(item_in_inventar, "weapon") else item_in_inventar
-        item_in_inventar = "offhand" if check_item_is_weapon_or_offhand(item_in_inventar, "offhand") else item_in_inventar
-        recired_item_attr = requiredItems["bis"][item_in_inventar.lower()]
+
+        if(requiredItems["class"] != "barbarian"):
+            item_in_inventar = "weapon" if check_item_is_weapon_or_offhand(item_in_inventar, "weapon") else item_in_inventar
+            item_in_inventar = "offhand" if check_item_is_weapon_or_offhand(item_in_inventar, "offhand") else item_in_inventar
+            recired_item_attr = requiredItems["bis"][item_in_inventar.lower()]
+        else:
+            item_is_barbarian_weapon(item_in_inventar)
+            recired_item_attr = requiredItems["bis"]["ring"]
+
         print(f"recired_item_attr: {recired_item_attr}")
 
         if unique_check(recired_item_attr, text) or none_unique_check(recired_item_attr, text):
@@ -322,28 +334,16 @@ def get_usable_items_for_class():
 
 
 def check_item_is_weapon_or_offhand(item, type):
-    """
-    Check if the given item is either a weapon or an offhand based on the specified type and character class.
+    return item in game_scope_data["slots"][requiredItems["class"]][type]
 
-    Args:
-        item (str): The item to be checked.
-        type (str): The type of item to check ("weapon" or "offhand").
+def item_is_barbarian_weapon(item):
+    weapon_type_list = []
+    weapon_type_list.append("bludgeoning_weapon") if item in game_scope_data["slots"]["barbarian"]["bludgeoning_weapon"] else None
+    weapon_type_list.append("slashing_weapon") if item in game_scope_data["slots"]["barbarian"]["slashing_weapon"] else None
+    weapon_type_list.append("dual_wield_weapon_1") if item in game_scope_data["slots"]["barbarian"]["dual_wield_weapon_1"] else None
+    weapon_type_list.append("dual_wield_weapon_2") if item in game_scope_data["slots"]["barbarian"]["dual_wield_weapon_2"] else None
 
-    Returns:
-        bool: True if the item is of the specified type for the current character class, False otherwise.
-
-    Example:
-        >>> check_item_is_weapon_or_offhand("Axe", "weapon")
-        True
-    """
-
-    values = []
-    if(requiredItems["class"] == "barbarian" and type != "offhand"):
-        values = get_last_values(game_scope_data["slots"]["barbarian"])
-    else:
-        values = game_scope_data["slots"][requiredItems["class"]][type]
-
-    return item in values
+    return weapon_type_list
 
 
 game_scope_data = None
