@@ -3,3 +3,4 @@ t_*.*
 *.png
 *.jpg
 __pycache__
+venv
