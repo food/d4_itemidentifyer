@@ -93,5 +93,28 @@
                 "Focus"
             ]
         }
+    },
+    "aspects": {
+        "storm-swell-aspect": {
+            "regex": "st(.*?){1,3}rm\\sswell"
+        },
+        "snowveiled-aspec": {
+            "regex": "sn(.*?){1,3}wveiled"
+        },
+        "conceited-aspect": {
+            "regex": "c(.*?){1,3}nceited"
+        },
+        "mage-lords-aspect": {
+            "regex": "mage-lord"
+        },
+        "aspect-of-disobedience": {
+            "regex": "disobedience"
+        },
+        "aspect-of-control": {
+            "regex": "control"
+        },
+        "gravitational-aspect": {
+            "regex": "gravitati(.*?){1,3}nal"
+        }
     }
 }

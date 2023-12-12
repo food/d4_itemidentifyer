@@ -1,4 +1,4 @@
-from text_utils import find_string_in_text, find_string_in_text_bin_response
+from text_utils import find_string_in_text, find_string_in_text_bin_response, pattern_found
 from sound_utils import play_sound
 from data_loader import load_game_scope_data, load_required_item_list
 
@@ -14,6 +14,7 @@ def check_attributes(text):
     """
     found = False
     item_in_inventar = None
+    LEGENDARY = "Legendary"
     game_scope_data = load_game_scope_data()
     required_items = load_required_item_list()
     usable_item_list = get_usable_items_for_class(game_scope_data, required_items)
@@ -42,14 +43,23 @@ def check_attributes(text):
             play_sound("success")
             return True
         else:
+            # Check for aspect
+            if find_string_in_text(text, LEGENDARY):
+                for aspect in game_scope_data["aspects"]:
+                    if pattern_found(game_scope_data["aspects"][aspect]["regex"], text):
+                        print("ASPECT FOUND")
+                        play_sound("success")
+                        return True
+            
+            print(text, LEGENDARY)
             play_sound("fail")
             return False
     else:
         if(required_items["class"] != "barbarian"):
             item_in_inventar = "weapon" if check_item_is_weapon_or_offhand(item_in_inventar, "weapon", game_scope_data, required_items) else item_in_inventar
             item_in_inventar = "offhand" if check_item_is_weapon_or_offhand(item_in_inventar, "offhand", game_scope_data, required_items) else item_in_inventar
-            print(required_items["bis"])
-            print(item_in_inventar.lower())
+            #print(required_items["bis"])
+            #print(item_in_inventar.lower())
             recired_item_attr = required_items["bis"][item_in_inventar.lower()]
         else:
             item_is_barbarian_weapon(item_in_inventar, game_scope_data)
@@ -61,8 +71,17 @@ def check_attributes(text):
             play_sound("success")
             return True
         else:
+            # Check for aspect
+            if find_string_in_text(text, LEGENDARY):
+                for aspect in game_scope_data["aspects"]:
+                    if pattern_found(game_scope_data["aspects"][aspect]["regex"], text):
+                        print("ASPECT FOUND")
+                        play_sound("success")
+                        return True
+
             play_sound("fail")
             return False
+
 
 def get_usable_items_for_class(game_scope_data, required_items):
     """
@@ -79,6 +98,7 @@ def get_usable_items_for_class(game_scope_data, required_items):
 
     # Convert the result back to a list adn return
     return list(merged_set)
+
 
 def unique_check(recired_item_attr, text):
     """
@@ -116,6 +136,7 @@ def none_unique_check(recired_item_attr, text):
         find_string_in_text_bin_response(text, recired_item_attr["attribut3"]) +
         find_string_in_text_bin_response(text, recired_item_attr["attribut4"]) >= recired_item_attr["min_match_count"])
 
+
 def check_item_is_weapon_or_offhand(item, type, game_scope_data, required_items):
     """
     Check if the provided item is a weapon or offhand of the specified type.
@@ -147,6 +168,7 @@ def item_is_barbarian_weapon(item, game_scope_data):
     weapon_type_list.append("dual_wield_weapon_2") if item in game_scope_data["slots"]["barbarian"]["dual_wield_weapon_2"] else None
 
     return weapon_type_list
+
 
 def get_last_values(data):
     """

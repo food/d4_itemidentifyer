@@ -4,13 +4,12 @@ from data_loader import load_game_scope_data, load_required_item_list
 from PyQt5.QtWidgets import QApplication
 import sys
 
+from text_utils import pattern_found
+
 def main():
     """
     Main function to run the application.
     """
-    load_game_scope_data()
-    load_required_item_list()
-
     app = QApplication(sys.argv)
     overlay = Overlay()
     background_thread = BackgroundTask()

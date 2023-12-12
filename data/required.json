@@ -67,5 +67,12 @@
             "attribut4": "Mana Cost Reduction"
         }
     },
-    "aspects": []
+    "aspects": [
+        "mage-lord-aspect",
+        "aspect-of-disobedience",
+        "storm-swell-aspect",
+        "aspect-of-control",
+        "gravitational-aspect",
+        "conceited-aspect"
+    ]
 }
