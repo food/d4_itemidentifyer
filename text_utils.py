@@ -1,3 +1,4 @@
+import re
 
 def find_string_in_text(text, search_string):
     """
@@ -37,3 +38,24 @@ def find_string_in_text_bin_response(text, search_string):
         0
     """
     return 1 if find_string_in_text(text, search_string) else 0
+
+
+def pattern_found(pattern, text):
+    """
+    Check if a pattern is found in a string using regular expressions.
+
+    Args:
+        pattern (str): The regular expression pattern to search for.
+        text (str): The input string in which the search will be performed.
+
+    Returns:
+        bool: True if the pattern is found, False otherwise.
+
+    Example:
+        >>> pattern_found(r'\d+', 'This string contains a number: 123')
+        True
+    """
+    print("text", text)
+    print("pattern", pattern)
+    print("regex", re.search(pattern, text, re.IGNORECASE))
+    return bool(re.search(pattern, text, re.IGNORECASE))
