@@ -10,6 +10,7 @@
 - [ ] O and OO in name is not nice to parse cause d4 font need a regex fix here
 - [ ] squares should despawn after an amount of time
 - [ ] squares should sourounded mouse possition (at the moment mous position is left top)
+- [ ] support multiple languages (only englisch at the moment)
 
 
 ## (CHECK) Wapon needs to be checkt the whole list for one hand or two hand and attributes // get from internal list
