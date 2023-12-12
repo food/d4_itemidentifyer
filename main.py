@@ -6,19 +6,19 @@ from PIL import Image
 import json
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget
-from PyQt5.QtCore import Qt, QTimer, QThread, QCoreApplication
+from PyQt5.QtCore import Qt, QTimer, QThread, pyqtSignal
+from PyQt5.QtGui import QPainter, QColor
 from PyQt5 import QtGui
-import time
-import asyncio
+import threading
+
 
 def take_screenshot():
     """Take screenshot of the whole screen"""
-
     # Take a screenshot and return it
     return pyautogui.screenshot()
 
 
-def crop_image(screenshot, from_mouse): 
+def crop_image(screenshot, from_mouse, mouse_x): 
     """
     Crop the input screenshot based on the specified region around the mouse cursor.
 
@@ -32,12 +32,8 @@ def crop_image(screenshot, from_mouse):
     Raises:
         ValueError: If the "from_mouse" parameter is not "left" or "right".
     """
-
     # Get screenshot height
     height = screenshot.height
-    
-    # Get mouse positions
-    mouse_x, mouse_y = pyautogui.position()
 
     # cut screenshot frome mouse position to -600px    
     if from_mouse == "left":
@@ -72,7 +68,6 @@ def extract_text_from_image(screenshot):
     Raises:
         pytesseract.TesseractError: If Tesseract OCR encounters an error during text extraction.
     """
-
     # Convert the PIL-Imageobject to RGB colors
     image_data = screenshot.convert("RGB")
 
@@ -112,29 +107,19 @@ def find_string_in_text(text, search_string):
         >>> find_string_in_text("Another example.", "test")
         False
     """
-
     return search_string in text
 
 
 def check_attributes(text):
     """
-    Check if the given OCR text corresponds to required attributes for specific item classes.
+    Check the attributes of an item based on the provided text.
 
     Args:
-        text (str): The OCR text to be checked.
+        text (str): The text to analyze.
 
     Returns:
-        None
-
-    Prints:
-        - The recognized item class if found.
-        - The OCR text and a message if the item type is not found in the required list.
-        - Success or fail messages based on attribute checks.
-
-    Example:
-        >>> check_attributes("Some OCR text")
+        bool: True if the item has the required attributes, False otherwise.
     """
-
     found = False
     item_in_inventar = None
 
@@ -151,7 +136,7 @@ def check_attributes(text):
     if found == False:
         print(text)
         print("Item type not found in require list")
-        return
+        return False
     
     print(f"item_in_inventar: {item_in_inventar}")
 
@@ -162,13 +147,16 @@ def check_attributes(text):
         print(f"recired_item_attr2: {recired_item_attr2}")
         if unique_check(recired_item_attr, text) or none_unique_check(recired_item_attr, text) or unique_check(recired_item_attr2, text) or none_unique_check(recired_item_attr2, text):
             play_sound("success")
+            return True
         else:
             play_sound("fail")
+            return False
     else:
-
         if(requiredItems["class"] != "barbarian"):
             item_in_inventar = "weapon" if check_item_is_weapon_or_offhand(item_in_inventar, "weapon") else item_in_inventar
             item_in_inventar = "offhand" if check_item_is_weapon_or_offhand(item_in_inventar, "offhand") else item_in_inventar
+            print(requiredItems["bis"])
+            print(item_in_inventar.lower())
             recired_item_attr = requiredItems["bis"][item_in_inventar.lower()]
         else:
             item_is_barbarian_weapon(item_in_inventar)
@@ -178,8 +166,10 @@ def check_attributes(text):
 
         if unique_check(recired_item_attr, text) or none_unique_check(recired_item_attr, text):
             play_sound("success")
+            return True
         else:
             play_sound("fail")
+            return False
 
 
 def unique_check(recired_item_attr, text):
@@ -196,7 +186,6 @@ def unique_check(recired_item_attr, text):
     Example:
         >>> unique_check({"unique": True, "name": "Unique Item"}, "OCR text containing Unique Item")
     """
-
     return recired_item_attr.get("unique") and find_string_in_text(text, recired_item_attr["name"]) # TDO O and OO fix!
 
 
@@ -214,7 +203,6 @@ def none_unique_check(recired_item_attr, text):
     Example:
         >>> none_unique_check({"unique": False, "attribut1": "Attribute1", "attribut2": "Attribute2", "min_match_count": 2}, "OCR text containing Attribute1 and Attribute2")
     """
-
     return recired_item_attr.get("unique") == None and(find_string_in_text_bin_response(text, recired_item_attr["attribut1"]) +
         find_string_in_text_bin_response(text, recired_item_attr["attribut2"]) + 
         find_string_in_text_bin_response(text, recired_item_attr["attribut3"]) +
@@ -223,23 +211,29 @@ def none_unique_check(recired_item_attr, text):
 
 def load_required_item_list():
     """
-    Load a list of required items with their specifications.
+    Load the required item list from a JSON file.
 
-    Returns:
-        list: A list of dictionaries representing the required items. Each dictionary contains information such as the item key, 
-              whether it"s unique, the name of the item, and additional attributes.
+    This function reads the required item list from a JSON file located at "data/required.json"
+    and assigns it to the global variable `requiredItems`. The loaded data is expected to contain
+    information about the required items, including their attributes and classes.
 
-    Example:
-        [
-            {"key": "Helm", "unique": True, "name": "Godslayer Crown"},
-            {"key": "Chest", "min_match_count": 3, "attribut1": "Total Armor", "attribut2": "Damage Reduction from Distant Enemies", 
-             "attribut3": "Damage Reduction from Close Enemies", "attribut4": "Damage Reduction from Burning Enemies"},
-        ]
+    Global Variables:
+        requiredItems: A dictionary containing information about the required items.
+
+    Raises:
+        FileNotFoundError: If the specified JSON file is not found.
+        json.JSONDecodeError: If there is an issue decoding the JSON data.
     """
-
     global requiredItems
-    with open("data/required.json", "r") as file:
-        requiredItems = json.load(file)
+    try:
+        with open("data/required.json", "r") as file:
+            requiredItems = json.load(file)
+    except FileNotFoundError:
+        print("Error: The specified JSON file ('data/required.json') was not found.")
+        raise
+    except json.JSONDecodeError as e:
+        print(f"Error decoding JSON data: {e}")
+        raise
 
 
 def play_sound(status):
@@ -260,7 +254,6 @@ def play_sound(status):
         >>> play_sound("success")
         # Plays the success sound.
     """
-
     sound_file_path = "./success.mp3"
     if status == "success":
         sound_file_path = "./success.mp3"
@@ -291,17 +284,46 @@ def find_string_in_text_bin_response(text, search_string):
         >>> find_string_in_text_bin_response("Another example.", "test")
         0
     """
-
     return 1 if find_string_in_text(text, search_string) else 0
 
 
 def load_game_scope_data():
+    """
+    Load game scope data from a JSON file.
+
+    This function reads the game scope data from a JSON file located at "data/game_scope_data.json"
+    and assigns it to the global variable `game_scope_data`. The loaded data is expected to contain
+    information about the game's scope, including slots and attributes.
+
+    Global Variables:
+        game_scope_data: A dictionary containing information about the game's scope.
+
+    Raises:
+        FileNotFoundError: If the specified JSON file is not found.
+        json.JSONDecodeError: If there is an issue decoding the JSON data.
+    """
     global game_scope_data
-    with open("data/game_scope_data.json", "r") as file:
-        game_scope_data = json.load(file)
+    try:
+        with open("data/game_scope_data.json", "r") as file:
+            game_scope_data = json.load(file)
+    except FileNotFoundError:
+        print("Error: The specified JSON file ('data/game_scope_data.json') was not found.")
+        raise
+    except json.JSONDecodeError as e:
+        print(f"Error decoding JSON data: {e}")
+        raise
 
 
 def get_last_values(data):
+    """
+    Get the last values from the provided data.
+
+    Args:
+        data (dict): The data to analyze.
+
+    Returns:
+        list: The list of last values.
+    """
     result = []
     for key, value in data.items():
         if isinstance(value, dict):
@@ -313,16 +335,11 @@ def get_last_values(data):
 
 def get_usable_items_for_class():
     """
-    Get a list of usable items for the current character class based on the last values in the game scope data.
+    Get the usable items for the current class.
 
     Returns:
-        list: A list of usable items for the current character class.
-
-    Example:
-        >>> get_usable_items_for_class()
-        ['Helm', 'Chest', 'Gloves', 'Pants', 'Boots', 'Amulet', 'Ring']
+        list: The list of usable items for the class.
     """
-
     generally_values = get_last_values(game_scope_data["slots"]["generally"])
     classs_values = get_last_values(game_scope_data["slots"][requiredItems["class"]])
 
@@ -334,9 +351,28 @@ def get_usable_items_for_class():
 
 
 def check_item_is_weapon_or_offhand(item, type):
+    """
+    Check if the provided item is a weapon or offhand of the specified type.
+
+    Args:
+        item (str): The item to check.
+        type (str): The type of the item.
+
+    Returns:
+        bool: True if the item is of the specified type, False otherwise.
+    """
     return item in game_scope_data["slots"][requiredItems["class"]][type]
 
 def item_is_barbarian_weapon(item):
+    """
+    Check if the provided item is a weapon for the barbarian class.
+
+    Args:
+        item (str): The item to check.
+
+    Returns:
+        list: A list of weapon types the item belongs to.
+    """
     weapon_type_list = []
     weapon_type_list.append("bludgeoning_weapon") if item in game_scope_data["slots"]["barbarian"]["bludgeoning_weapon"] else None
     weapon_type_list.append("slashing_weapon") if item in game_scope_data["slots"]["barbarian"]["slashing_weapon"] else None
@@ -345,45 +381,146 @@ def item_is_barbarian_weapon(item):
 
     return weapon_type_list
 
+class Square:
+    """
+    Represents a square with positional and color attributes.
+
+    Attributes:
+        x (int): The x-coordinate of the top-left corner of the square.
+        y (int): The y-coordinate of the top-left corner of the square.
+        width (int): The width of the square.
+        height (int): The height of the square.
+        color: The color of the square.
+
+    Methods:
+        __init__: Initializes a new instance of the Square class.
+    """
+    def __init__(self, x, y, width, height, color):
+        """
+        Initializes a new instance of the Square class.
+
+        Args:
+            x (int): The x-coordinate of the top-left corner of the square.
+            y (int): The y-coordinate of the top-left corner of the square.
+            width (int): The width of the square.
+            height (int): The height of the square.
+            color: The color of the square.
+        """
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.color = color
+    
+class BackgroundTask(QThread):
+    """
+    Asynchronous background task for item checking.
+
+    Attributes:
+        overlay_signal (pyqtSignal): Signal for emitting overlay updates.
+
+    Methods:
+        run: Main method representing the task's execution.
+    """
+    overlay_signal = pyqtSignal(Square)
+
+    def run(self):
+        """
+        Main method representing the task's execution.
+
+        The task continuously monitors the keyboard input and takes actions accordingly.
+        If the '-' key is pressed, it captures a screenshot and checks for an item in the item window.
+        If an item is found, it emits an overlay signal with the corresponding status (item_ok or item_crap).
+        The task runs indefinitely until the 'q' key is pressed to exit.
+        """
+        print("Press '-', to check an hovered item. Press 'Q', to exit.")
+        itembox_identifyer_string = "Item Power"
+
+        while True:
+            if keyboard.is_pressed("-"):
+                # Get mouse positions
+                mouse_x, mouse_y = pyautogui.position()
+
+                # Take a screenshot
+                screenshot = take_screenshot()
+                # Crop screenshot from mouse to left side
+                cropped_screenshot = crop_image(screenshot, "left", mouse_x)
+                # get text from the screenshotq
+                text = extract_text_from_image(cropped_screenshot)
+
+                # check left side from mouse for the item window
+                if find_string_in_text(text, itembox_identifyer_string):
+                    print("Found on left side")
+                    if check_attributes(text):
+                        self.overlay_signal.emit(Square(mouse_x, mouse_y, 50, 50, item_ok))
+                    else:
+                        self.overlay_signal.emit(Square(mouse_x, mouse_y, 50, 50, item_crap))
+                else:
+                    # Crop screenshot from mouse to right side
+                    cropped_screenshot = crop_image(screenshot, "right", mouse_x)
+                    # get text from the screenshot
+                    text = extract_text_from_image(cropped_screenshot)
+                    if find_string_in_text(text, itembox_identifyer_string):
+                        print("Found on right side")
+                        if check_attributes(text):
+                            self.overlay_signal.emit(Square(mouse_x, mouse_y, 50, 50, item_ok))
+                        else:
+                            self.overlay_signal.emit(Square(mouse_x, mouse_y, 50, 50, item_crap))
+                    else:
+                        print("No Item found!")
+
+            # Exit if Q was pressed
+            if keyboard.is_pressed("q"):
+                print("Programm wird beendet.")
+                sys.exit()
+
+class Overlay(QWidget):
+    """
+    Overlay widget for displaying squares.
+    """
+    def __init__(self):
+        super().__init__()
+        self.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.WindowTransparentForInput | Qt.FramelessWindowHint)
+        self.setAttribute(Qt.WA_TranslucentBackground)
+        
+        self.showFullScreen()
+        self.initOverlay()
+        self.squares = []
+
+    def initOverlay(self):
+        self.show()
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.Antialiasing)
+
+        for square in self.squares:
+            print(square)
+            painter.fillRect(square.x, square.y, square.width, square.height, square.color)
+
+    def foo(self, square):
+        print(square)
+        self.squares.append(square)
+        self.update()
 
 game_scope_data = None
 requiredItems = None
+item_ok = QtGui.QColor(0, 255, 0, 100)
+item_crap = QtGui.QColor(255, 0, 0, 100)
 
 def main():
-    print("Press '-', to check an hovered item. Press 'Q', to exit.")
-    itembox_identifyer_string = "Item Power"
+    """
+    Main function to run the application.
+    """
     load_game_scope_data()
     load_required_item_list()
 
-    while True:
-        if keyboard.is_pressed("-"):
-        # Take a screenshot
-            screenshot = take_screenshot()
-            # Crop screenshot from mouse to left side
-            cropped_screenshot = crop_image(screenshot, "left")
-            # get text from the screenshotq
-            text = extract_text_from_image(cropped_screenshot)
-
-            # check left side from mouse for the item window
-            if find_string_in_text(text, itembox_identifyer_string):
-                print("Found on left side")
-                check_attributes(text)
-            else:
-                # Crop screenshot from mouse to right side
-                cropped_screenshot = crop_image(screenshot, "right")
-                # get text from the screenshot
-                text = extract_text_from_image(cropped_screenshot)
-                if find_string_in_text(text, itembox_identifyer_string):
-                    print("Found on right side")
-                    check_attributes(text)
-                else:
-                    print("No Item found!")
-
-        # Exit if Q was pressed
-        if keyboard.is_pressed("q"):
-            print("Programm wird beendet.")
-            break
-
+    app = QApplication(sys.argv)
+    overlay = Overlay()
+    background_thread = BackgroundTask()
+    background_thread.overlay_signal.connect(overlay.foo)
+    background_thread.start()
+    sys.exit(app.exec_())
 
 if __name__ == "__main__":
     main()

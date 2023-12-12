@@ -59,7 +59,7 @@
             "attribut3": "Mastery Skill Damage",
             "attribut4": "Damage to Close Enemies"
         },
-        "offHand": {
+        "offhand": {
             "min_match_count": 3,
             "attribut1": "Critical Strike Chance",
             "attribut2": "Resource Generation",
