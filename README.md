@@ -78,6 +78,45 @@ check is attributes > aspect!
 - [ ] User interface for configuration
 
 
+## Problems
+
+### tesseract not found
+
+If you encounter the "tesseract is not installed or it's not in your PATH" error in Windows, you need to make sure that the Tesseract executable is installed and its location is added to the system PATH. Here are the steps to resolve this issue:
+
+### Install Tesseract:
+
+1. Download the Tesseract installer for Windows from the official GitHub repository: [Tesseract GitHub Releases](https://github.com/tesseract-ocr/tesseract/releases).
+2. Run the installer and follow the installation instructions.
+
+### Add Tesseract to PATH:
+
+After installing Tesseract, you need to add its installation directory to the system PATH. This allows Python and other applications to find the Tesseract executable.
+The Tesseract executable is often located in the "Tesseract-OCR" directory within the installation path.
+For example, if Tesseract is installed in `C:\Program Files\Tesseract-OCR`, you would add `C:\Program Files\Tesseract-OCR` to your system PATH.
+
+To add Tesseract to your PATH in Windows:
+1. Right-click on "This PC" or "Computer" and select "Properties."
+2. Click on "Advanced system settings" on the left.
+3. Click on the "Environment Variables" button.
+4. In the "System variables" section, find the "Path" variable and click "Edit."
+5. Click "New" and add the path to the Tesseract executable directory.
+
+### Restart Your Command Prompt or IDE:
+
+After adding Tesseract to the PATH, close and reopen your command prompt or restart your integrated development environment (IDE) to apply the changes.
+
+### Verify Installation:
+
+Open a new command prompt and run the following command to verify that Tesseract is in your PATH:
+```
+tesseract --version
+```
+
+thx to Chat GPT for generating this working answer ;)
+
+
+
 
 ## Misc only for me for dev. Too lazy to put it somewhere else :P
 * (CHECK) Wapon needs to be checkt the whole list for one hand or two hand and attributes // get from internal list
