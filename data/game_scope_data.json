@@ -1,0 +1,97 @@
+{
+    "slots": {
+        "generally": {
+            "helm": [
+                "Helm"
+            ],
+            "chest": [
+                "Chest"
+            ],
+            "gloves": [
+                "Gloves"
+            ],
+            "pants": [
+                "Pants"
+            ],
+            "boots": [
+                "Boots"
+            ],
+            "amulet": [
+                "Amulet"
+            ],
+            "ring": [
+                "Ring"
+            ]
+        },
+        "barbarian": {
+            "bludgeoning_weapon": [
+                "Two-Handed Mace"
+            ],
+            "dual_wield_weapon_1": [
+                "Mace",
+                "Axe",
+                "Sword"
+            ],
+            "dual_wield_weapon_2": [
+                "Mace",
+                "Axe",
+                "Sword"
+            ],
+            "slashing_weapon": [
+                "Two-Handed Sword",
+                "Two-Handed Axe"
+            ]
+        },
+        "druid": {
+            "weapon": [
+                "Axe",
+                "Two-Handed Axe",
+                "Mace",
+                "Two-Handed Mace",
+                "Staff",
+                "Two-Handed Staff"
+            ],
+            "offhand": [
+                "Totem"
+            ]
+        },
+        "necromancer": {
+            "weapon": [
+                "Sword",
+                "Two-Handed Sword",
+                "Scythe",
+                "Two-Handed Scythe",
+                "Staff",
+                "Two-Handed Staff"
+            ],
+            "offhand": [
+                "Wand",
+                "Shield",
+                "Focus"
+            ]
+        },
+        "rogue": {
+            "weapon": [
+                "Sword",
+                "Dagger",
+                "Bow",
+                "Crossbow"
+            ],
+            "offhand": [
+                "Sword",
+                "Dagger"
+            ]
+        },
+        "sorcerer": {
+            "weapon": [
+                "Dagger",
+                "Staff",
+                "Two-Handed Staff"
+            ],
+            "offhand": [
+                "Wand",
+                "Focus"
+            ]
+        }
+    }
+}

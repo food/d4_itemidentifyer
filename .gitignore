@@ -1,0 +1,5 @@
+t_*.*
+*.bmp
+*.png
+*.jpg
+__pycache__
